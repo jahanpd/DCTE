@@ -1,0 +1,17 @@
+:root {
+		font-family: "Gill Sans", sans-serif;
+		--height: auto;
+		--width: auto;
+}
+
+body {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-around;
+}
+
+.title {
+
+}
+
+
