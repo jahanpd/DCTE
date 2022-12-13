@@ -52,15 +52,24 @@ fn drawsim(org: Organism) {
     context.begin_path();
     for (i, coords) in org.coordinates.iter().enumerate() {
         let relage = (org.ages[i] as f64) / 150f64.max(maxage);
-        let colour = grad.at(relage).to_hex_string();
+        let clr = grad.at(relage).rgba_u8();
         context
-            .set_fill_style(&JsValue::from_str(&colour));
-        context
-            .fill_rect(
+            .set_fill_style(&JsValue::from_str( // clr.3 is the alpha
+                &format!("rgba({}, {}, {}, {})", clr.0, clr.1, clr.2, 1)
+            ));
+        context // fill_rect
+            .rect(
                 (coords.x as f64) * diameter, 
                 (coords.y as f64) * diameter,
                 diameter, diameter
-            )
+            );
+        context.set_font("14px serif");
+        context
+            .fill_text(
+                &format!("{}", org.ages[i]),
+                (coords.x as f64) * diameter + (diameter/2.) - 5.,
+                (coords.y as f64) * diameter + (diameter/2.) + 5.,
+            );
     }
     // Draw the outer circle.
     context.stroke();
@@ -101,13 +110,13 @@ fn drawplot(canvas_id: &str, age: Vec<f32>, size: Vec<f32>) {
         .configure_mesh()
         .disable_x_mesh()
         .disable_y_mesh()
-        .y_desc("Age")
+        .y_desc("Age (red)")
         .y_label_formatter(&|x| format!("{:e}", x))
         .draw().unwrap();
 
     chart
         .configure_secondary_axes()
-        .y_desc("Size")
+        .y_desc("Size (blue)")
         .draw().unwrap();
 
     chart.draw_series(LineSeries::new(

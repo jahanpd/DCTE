@@ -1,7 +1,10 @@
 use std::f32::consts::E;
 use std::iter::zip;
 use rand::prelude::*;
+use rand_distr::{Exp, Distribution};
 use yew::{Properties};
+
+
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct Settings {
@@ -41,6 +44,25 @@ impl Location {
         |l| (l.x >= 0) & (l.y >= 0)
         ).collect()
     }
+
+    // to choose neighbour to sample from you need to:
+    // 1. sample a surrounding ring of cells with p(ring) decreasing exponentially with distance
+    // 2. randomly choose a cell in the ring
+    pub fn sample_neighbour(&self) -> Location {
+        let exp = Exp::new(1.0).unwrap();
+        let row: i32 = 1 + exp.sample(&mut rand::thread_rng()) as i32;
+        let mut diffs: Vec<(i32, i32)> = [].to_vec();
+        for r in -row..=row {diffs.push((-row, r))};
+        for r in -row..=row {diffs.push((row, r))};
+        for r in -row..=row {diffs.push((r, -row))};
+        for r in -row..=row {diffs.push((r, row))};
+        let index: usize = rand::thread_rng().gen_range(0..diffs.len());
+        Location {
+            x: self.x + diffs[index].0,
+            y: self.y + diffs[index].1
+        }
+    }
+
 }
 
 impl PartialEq for Location {
@@ -99,6 +121,7 @@ fn gene_mutation(gene: String, mutation_rate: f32) -> String {
         }
     ).collect::<String>().to_string()
 }
+
 
 impl Organism {
     pub fn mean_age(&self) -> f32 {
