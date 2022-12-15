@@ -58,18 +58,18 @@ fn drawsim(org: Organism) {
                 &format!("rgba({}, {}, {}, {})", clr.0, clr.1, clr.2, 1)
             ));
         context // fill_rect
-            .rect(
+            .fill_rect(
                 (coords.x as f64) * diameter, 
                 (coords.y as f64) * diameter,
                 diameter, diameter
             );
         context.set_font("14px serif");
-        context
-            .fill_text(
-                &format!("{}", org.ages[i]),
-                (coords.x as f64) * diameter + (diameter/2.) - 5.,
-                (coords.y as f64) * diameter + (diameter/2.) + 5.,
-            );
+        // context
+        //     .fill_text(
+        //         &format!("{}", org.ages[i]),
+        //         (coords.x as f64) * diameter + (diameter/2.) - 5.,
+        //         (coords.y as f64) * diameter + (diameter/2.) + 5.,
+        //     );
     }
     // Draw the outer circle.
     context.stroke();
