@@ -233,7 +233,7 @@ fn app() -> Html {
         <div class="flex flex-row flex-wrap pt-2 pb-2 pl-5 pr-5 w-full justify-around">
             <h1 class="w-full text-center text-xl p-1"><b>{"Decentralized cellular timekeeping based on entropy"}</b></h1>
             <h2 class= "w-full text-center p-1">{"A mechanism for groups of cells to estimate the age of the organism they form."}</h2>
-            <h2 class= "w-full text-center text-sm p-1 italic">{"J. C. Penny-Dimri"}</h2>
+            <h2 class= "w-full text-center text-sm p-1 italic">{"Anonymous Sumbission"}</h2>
         </div>
         <div class="flex flex-col items-center w-full justify-around pt-2 pb-2 pl-5 pr-5">
             <canvas id="simulation"  width="600" height="600"></canvas>
